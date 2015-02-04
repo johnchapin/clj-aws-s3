@@ -1,4 +1,9 @@
-# clj-aws-s3
+# net.boostrot/clj-aws-s3
+
+*This library is forked from James Reeves'
+[clj-aws-s3](http://github.com/weavejester/clj-aws-s3). The purpose of this
+fork is to make available configuration options and features not available
+in the original library.*
 
 A Clojure library for accessing Amazon S3, based on the official AWS
 Java SDK.
@@ -15,7 +20,7 @@ and update the access control lists (ACLs) for buckets and objects.
 
 Add the following dependency to your `project.clj` file:
 
-    [clj-aws-s3 "0.3.10"]
+    [net.boostrot/clj-aws-s3 "0.3.11-SNAPSHOT"]
 
 ## Example
 
@@ -35,10 +40,10 @@ Add the following dependency to your `project.clj` file:
 
 ## Documentation
 
-* [API docs](http://weavejester.github.com/clj-aws-s3/)
+* [API docs](http://johnchapin.github.com/clj-aws-s3/)
 
 ## License
 
-Copyright © 2014 James Reeves
+Copyright © 2015 James Reeves, Johnathan Chapin
 
 Distributed under the Eclipse Public License, the same as Clojure.
