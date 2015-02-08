@@ -3,7 +3,7 @@
 *This library is forked from James Reeves'
 [clj-aws-s3](http://github.com/weavejester/clj-aws-s3). The purpose of this
 fork is to make available configuration options and features not available
-in the original library.*
+in the original library. See the [Additions](#additions) section.*
 
 A Clojure library for accessing Amazon S3, based on the official AWS
 Java SDK.
@@ -37,6 +37,10 @@ Add the following dependency to your `project.clj` file:
 
 (println (slurp (:content (s3/get-object cred "my-bucket" "some-key"))))
 ```
+## <a name="additions"></a>Additions to original clj-aws-s3
+
+* Multi-object delete using `delete-objects`
+* Passing `:lazy true` option to `list-objects` returns lazy sequence of object listings
 
 ## Documentation
 
