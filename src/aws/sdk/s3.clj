@@ -431,6 +431,17 @@
     (coerce/to-date (:expires options (-> 1 t/days t/from-now)))
     (http-method (:http-method options :get)))))
 
+(defn- list-objects*
+  [cred bucket & [options]]
+  (lazy-seq
+    (let [request (map->ListObjectsRequest (merge {:bucket bucket} options))
+          result (-> (s3-client cred) (.listObjects ,,, request) to-map)]
+      (cons
+        result
+        (when-let [next-marker (:next-marker result)]
+          (->> (assoc options :marker next-marker)
+               (list-objects* cred bucket ,,,)))))))
+
 (defn list-objects
   "List the objects in an S3 bucket. A optional map of options may be supplied.
   Available options are:
@@ -438,6 +449,7 @@
     :marker    - read objects after this key
     :max-keys  - read only this many objects
     :prefix    - read only objects with this prefix
+    :lazy      - return a lazy sequence of object listings
 
   The object listing will be returned as a map containing the following keys:
     :bucket          - the name of the bucket
@@ -448,11 +460,11 @@
     :truncated?      - true if the list of objects was truncated
     :marker          - the marker of the listing
     :next-marker     - the next marker of the listing"
-  [cred bucket & [options]]
-  (to-map
-   (.listObjects
-    (s3-client cred)
-    (map->ListObjectsRequest (merge {:bucket bucket} options)))))
+  [cred bucket & [{:keys [lazy] :as options}]]
+  (let [results (list-objects* cred bucket options)]
+    (if lazy
+      results
+      (first results))))
 
 (defn delete-object
   "Delete an object from an S3 bucket."
